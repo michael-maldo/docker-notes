@@ -72,8 +72,8 @@ Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docke
 
 ```
 ### docker images
-<b>Docker image</b> is like an object that contains an OS filesystem, an application, and all application dependencies.<br/>
-An image gets its own <b>unique ID</b>.<br/>
+**Docker image** is like an object that contains an OS filesystem, an application, and all application dependencies.<br/>
+An image gets its own **unique ID**.<br/>
 When referencing images, you can refer to them using either IDs or names.
 ```bash title="bash"
 // currently no images
@@ -100,8 +100,8 @@ ubuntu       latest    c3a134f2ace4   2 months ago   78.1MB
 ```
 
 ### docker containers
-<b>docker run</b> command to launch a container from the <b>ubuntu</b> image<br/>
-The <b>-it</b> flags tell Docker<br/>
+**docker run** command to launch a container from the **ubuntu** image<br/>
+The **-it** flags tell Docker<br/>
 to make the container interactive<br/>
 and to attach the current shell to the container’s terminal<br/>
 
@@ -128,9 +128,9 @@ root@a1bb606e08be:/#
 ```
 
 ### Exit container without terminating
-Press <b>Ctrl-PQ</b> to exit the container without terminating it. <br/>
+Press **Ctrl-PQ** to exit the container without terminating it. <br/>
 Exit from the container without killing it. <br/>
-<b>docker ps</b> command - to see all running containers <br/>
+**docker ps** command - to see all running containers <br/>
 
 ```bash title="bash"
 
@@ -172,13 +172,13 @@ $
 
 ### Stopping / Killing running containers
 Stop the container and kill it <br/>
-using the <b>docker stop CONTAINER_ID | NAME</b> -- to stop a running container<br/>
-and <b>docker rm CONTAINER_ID | NAME</b> command to remove a container -- only after it has stopped<br/>
+using the **docker stop CONTAINER_ID | NAME** -- to stop a running container<br/>
+and **docker rm CONTAINER_ID | NAME** command to remove a container -- only after it has stopped<br/>
 substitute the names/IDs of the containers.<br/>
 
 After container is stopped<br/>
 Remove Images you want deleted<br/>
-Use <b>docker rmi REPOSITORY[:TAG] | IMAGE_ID</b><br/>
+Use **docker rmi REPOSITORY[:TAG] | IMAGE_ID**<br/>
 
 
 ```bash title="bash"
