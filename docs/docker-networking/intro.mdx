@@ -1,0 +1,102 @@
+---
+sidebar_position: 1
+---
+
+# Docker Networking Intro
+
+## top arch
+CNM (Container Network Model) - design
+libnetwork - implem
+drivers - extend network
+
+## networking types
+container to container
+container to existing network
+container to existing VLAN
+
+## CNM components
+sandboxes  - isolated network stack (interface, ports, routing tables)
+
+endpoints - virtual network interface veth - to connect sanboxes to networks
+
+networks - software implementation of a switch (802.1d bridge)
+- isolate and group together endpoints that need to communicate
+
+Docker Host / containers / CNM --- are isolated from the OS network stack.
+
+
+
+## Libnetwork  -- control plane / management plane
+native service discovery
+ingress based - basic container load balancing
+network control plane
+management plane
+
+
+
+## Drivers -- data plane
+The control/managment plane defines the desired network state,
+and the data plane realizes that state
+by creating and operating the actual networking infrastructure that carries traffic.
+
+
+native drivers
+bridge - single-host bridge network
+overlay - multi-host overlays
+macvlan - option for plugging to existing VLAN
+
+3rd-party drivers - implement other netwrok topoligies / more advanced configuration
+
+## Drivers
+-- own the network
+-- responsible for creation and management of all resources on the network
+
+Ex.
+network name - "prod-fe-cuda"
+network type - Overlay Network
+owned and managed by - overlay driver
+
+-- overlay driver is invoked for
+- creation / deletion / management of all resources on that network
+
+-- heterogenous network
+- libnetworks allows multiple network drivers active at the same time
+- meet demands of complex highly-fluid environments
+
+
+single-host bridge networks
+-- spans only on a single Docker host
+-- can only connect containers on the same host
+-- implementation of 802.1d bridge
+-- built-in bridge driver
+
+Docker host
+-- gets a default single-host bridge network
+-- by default all new containers are attached to the default bridge
+-- --network flag will override the  default
+
+**commands **
+`docker network ls`
+```
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$ date
+Mon Jan 26 20:45:32 AEDT 2026
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$ docker ps
+CONTAINER ID   IMAGE                                              COMMAND                  CREATED       STATUS                 PORTS                                         NAMES
+fa401c8b2f86   ghcr.io/michael-maldo/gnostex-backend-api:latest   "sh -c 'java $JAVA_O…"   2 weeks ago   Up 2 weeks (healthy)   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp   gnostex-backend-api
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$
+deploy@vmi2682430:~$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+d96b2645cf3e   bridge    bridge    local
+37bb33237548   host      host      local
+6a3fd19a0693   none      null      local
+deploy@vmi2682430:~$
+```
