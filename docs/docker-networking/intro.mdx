@@ -1,61 +1,80 @@
 ---
 sidebar_position: 1
 ---
-
 # Docker Networking Intro
 
-## top arch
-CNM (Container Network Model) - design
-libnetwork - implem
-drivers - extend network
+```
+Docker Networking (Top-Level)
+│
+├── CNM (Container Network Model)  ← conceptual / design spec
+│
+├── libnetwork                   ← reference implementation
+│
+└── Network drivers              ← pluggable extensions
+     ├── bridge
+     ├── overlay
+     ├── macvlan
+     ├── ipvlan
+     └── 3rd-party (Calico, Weave, etc.)
 
-## networking types
-container to container
-container to existing network
-container to existing VLAN
+
+```
+
+
+
+## Docker CNM-based networking stack
+- CNM (Container Network Model) - design
+- libnetwork - implementation
+- drivers - pluggable extension
+    - bridge
+    - overlay
+    - macvlan
+    - ipvlan
+    - 3rd party
 
 ## CNM components
-sandboxes  - isolated network stack (interface, ports, routing tables)
+-- Docker Host / containers / CNM -- are isolated from the OS network stack.
+- sandboxes
+  - isolated network stack (interface, ports, routing tables)
+- endpoints
+  - virtual network interface veth
+  - connect sandboxes to networks
+- networks - software implementation of a switch (802.1d bridge)
+  - isolate and group together endpoints that need to communicate
 
-endpoints - virtual network interface veth - to connect sanboxes to networks
+## networking modes
+- container to container
+- container to existing network
+- container to existing VLAN
 
-networks - software implementation of a switch (802.1d bridge)
-- isolate and group together endpoints that need to communicate
+## Libnetwork
+-- control plane / management plane
+- native service discovery
+- ingress based - basic container load balancing
 
-Docker Host / containers / CNM --- are isolated from the OS network stack.
-
-
-
-## Libnetwork  -- control plane / management plane
-native service discovery
-ingress based - basic container load balancing
-network control plane
-management plane
-
-
-
-## Drivers -- data plane
-The control/managment plane defines the desired network state,
-and the data plane realizes that state
-by creating and operating the actual networking infrastructure that carries traffic.
+## Drivers
+-- data plane
+- The control/managment plane defines the desired network state,
+- and the data plane realizes that state, by creating and operating the actual networking infrastructure that carries traffic.
 
 
-native drivers
-bridge - single-host bridge network
-overlay - multi-host overlays
-macvlan - option for plugging to existing VLAN
+### native drivers
+- bridge - single-host bridge network
+- overlay - multi-host overlays
+- macvlan - option for plugging to existing VLAN
 
 3rd-party drivers - implement other netwrok topoligies / more advanced configuration
 
 ## Drivers
--- own the network
--- responsible for creation and management of all resources on the network
+- own the network
+- responsible for creation and management of all resources on the network
 
+```
 Ex.
-network name - "prod-fe-cuda"
+network name - "prod-fe"
 network type - Overlay Network
 owned and managed by - overlay driver
-
+```
 -- overlay driver is invoked for
 - creation / deletion / management of all resources on that network
 
@@ -75,7 +94,7 @@ Docker host
 -- by default all new containers are attached to the default bridge
 -- --network flag will override the  default
 
-**commands **
+**commands**
 `docker network ls`
 ```
 deploy@vmi2682430:~$
